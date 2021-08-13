@@ -7,6 +7,7 @@
   cacert,
   jq,
   julia,
+  fetchgit,
   lib,
   python3,
   runCommand,
@@ -23,7 +24,7 @@
 let
   # We need to use a specially modified fetchgit that understands tree hashes, until
   # https://github.com/NixOS/nixpkgs/pull/104714 lands
-  fetchgit = callPackage ./fetchgit {};
+  # fetchgit = callPackage ./fetchgit {};
 
   packages = callPackage ./packages.nix {};
 

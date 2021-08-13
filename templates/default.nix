@@ -5,7 +5,7 @@ with pkgs;
 
 let
   # The base Julia version
-  baseJulia = julia_15;
+  baseJulia = julia-stable-bin;
 
   # Extra libraries for Julia's LD_LIBRARY_PATH.
   # Recent Julia packages that use Artifacts.toml to specify their dependencies
@@ -21,7 +21,8 @@ let
     mkdir -p $out/bin
     makeWrapper ${baseJulia}/bin/julia $out/bin/julia \
                 --suffix LD_LIBRARY_PATH : "${lib.makeLibraryPath extraLibs}" \
-                --set PYTHON ${python3}/bin/python
+                --set PYTHON ${python3}/bin/python \
+                --set JULIA_SSL_CA_ROOTS_PATH ""
   '';
 
 in
