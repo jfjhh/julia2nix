@@ -14,6 +14,7 @@
   stdenv,
   writeText,
   makeWrapper,
+  julia_project,
 
   # Arguments
   makeWrapperArgs ? "",
@@ -54,7 +55,7 @@ let
 
   ### Manifest.toml (processed)
   manifestToml = runCommand "Manifest.toml" { buildInputs = [jq]; } ''
-    cp ${./Manifest.toml} ./Manifest.toml
+    cp ${julia_project + "/Manifest.toml"} ./Manifest.toml
 
     echo ${writeText "packages.json" (lib.generators.toJSON {} repoifiedReplaceInManifest)}
     cat ${writeText "packages.json" (lib.generators.toJSON {} repoifiedReplaceInManifest)} | jq -r '.[]|[.name, .replaceUrlInManifest, .src] | @tsv' |
@@ -124,7 +125,7 @@ let
     echo "Using Julia ${julia}/bin/julia"
 
     cp ${manifestToml} ./Manifest.toml
-    cp ${./Project.toml} ./Project.toml
+    cp ${julia_project + "/Project.toml"} ./Project.toml
 
     mkdir -p $out/artifacts
     cp ${overridesToml} $out/artifacts/Overrides.toml
